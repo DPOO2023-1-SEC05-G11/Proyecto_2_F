@@ -1,0 +1,22 @@
+nombre plato;2000;false
+corral queso;8500;false
+corral pollo;15000;true
+corralita;13000;true
+todoterreno;25000;true
+1/2 libra;25000;true
+especial;24000;true
+casera;23000;true
+mexicana;22000;true
+criolla;22000;true
+costeña;20000;true
+hawaiana;20000;true
+wrap de pollo;15000;true
+wrap de lomo;22000;true
+ensalada mexicana;20900;true
+papas medianas;5500;true
+papas grandes;6900;true
+papas en casco medianas;5500;true
+papas en casco grandes;6900;true
+agua cristal sin gas;5000;true
+agua cristal con gas;5000;true
+gaseosa;5000;true

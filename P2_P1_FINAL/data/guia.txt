@@ -1,0 +1,4 @@
+cascadas;5000
+montaña;10000
+esqui;15000
+templos;20000
