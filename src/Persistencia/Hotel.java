@@ -733,41 +733,36 @@ public String acceso1(String usuarioIngresado, String contrasenaIngresada) {
 	File archivo = new File("data/datalogin.txt");
 	BufferedReader br = null;
 	try {
-	br = new BufferedReader(new FileReader(archivo));
-	boolean loginExitoso = false;
-	
-	do {
-	String linea;
-	while ((linea = br.readLine()) != null) {
-	String[] campos = linea.split(";");
-	String usuario = campos[0];
-	String contrasena = campos[1];
-	String tipo = campos[2];
-	
-	if (usuario.equals(usuarioIngresado) && contrasena.equals(contrasenaIngresada)) {
-	return tipo;
-	
-	} else {return null;}
-	}
-	
-	System.out.println("Usuario o contraseña incorrecto. Por favor, intente otra vez.");
-	br.close();
-	br = new BufferedReader(new FileReader(archivo));
-	} while (!loginExitoso);
+		br = new BufferedReader(new FileReader(archivo));
+		String linea;
+		while ((linea = br.readLine()) != null) {
+			String[] campos = linea.split(";");
+			String usuario = campos[0];
+			String contrasena = campos[1];
+			String tipo = campos[2];
+			
+			if (usuario.equals(usuarioIngresado) && contrasena.equals(contrasenaIngresada)) {
+				br.close();
+				return tipo;
+			}
+		}
+		
+		System.out.println("Usuario o contraseña incorrecto. Por favor, intente otra vez.");
 	} catch (IOException e) {
-	e.printStackTrace();
+		e.printStackTrace();
 	} finally {
-	if (br != null) {
-	try {
-	br.close();
-	} catch (IOException e) {
-	e.printStackTrace();
-	}
-	}
+		if (br != null) {
+			try {
+				br.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	return null;
 }
+
 public Habitacion buscarHabs1(Integer id) {
 	//int id = Integer.parseInt(input("Ingrese el id de la habitación que desea buscar."));
 	if(buscarHabitacion(id) == null){
