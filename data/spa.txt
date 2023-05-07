@@ -1,0 +1,3 @@
+masaje corporal;20000
+masaje de pies;10000
+otras opciones;5000
