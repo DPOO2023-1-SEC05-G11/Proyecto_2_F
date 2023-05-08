@@ -18,12 +18,12 @@ public class Hotel
 {
 	private static Hotel instance;
 	private static int contadorFactura = 0;
-	ArrayList<Habitacion> habitaciones = new ArrayList<Habitacion>();
-	ArrayList<ReservaEstadia> reservas = new ArrayList<ReservaEstadia>();
+	private ArrayList<Habitacion> habitaciones = new ArrayList<Habitacion>();
+	private ArrayList<ReservaEstadia> reservas = new ArrayList<ReservaEstadia>();
 	
-	HashMap<String, Servicio> servicios = new HashMap<String, Servicio>();
+	private HashMap<String, Servicio> servicios = new HashMap<String, Servicio>();
 	
-	ArrayList<String> facturas = new ArrayList<String>();
+	private ArrayList<String> facturas = new ArrayList<String>();
 		
 	/**
 	 * Este método sirve para imprimir un mensaje en la consola pidiéndole
@@ -834,6 +834,14 @@ try {
 
 LoaderSaver.salvarReservas(reservas);
 }
+
+public HashMap<String, Servicio> getServicios()
+{
+	return this.servicios;
+}
+
+
+
 
 public static void main(String[] args)
 {

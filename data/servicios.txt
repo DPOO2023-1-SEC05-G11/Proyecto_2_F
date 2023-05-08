@@ -1,1 +1,1 @@
-spa;guia;restaurante;
+spa;guia;restaurante
