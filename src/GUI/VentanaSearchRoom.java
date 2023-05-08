@@ -62,10 +62,8 @@ public class VentanaSearchRoom extends JFrame implements ActionListener{
 			if (hab==null) {
 				JOptionPane.showMessageDialog(null, "La habitacion no existe");
 			} else {
-				VentanaAddRoom ventana = new VentanaAddRoom();
+				VentanaShowRoom ventana = new VentanaShowRoom(hab);
 				ventana.setVisible(true);
-				ventana.setId(Integer.toString(hab.getId()));
-				ventana.setTarifa(Double.toString(hab.getTarifa()));
 			}
 			
 		}

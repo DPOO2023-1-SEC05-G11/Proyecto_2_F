@@ -5,19 +5,28 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Persistencia.Hotel;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.BorderLayout;
 import javax.swing.JTextField;
 import javax.swing.BoxLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 
-public class VentanaRemoveRoom extends JFrame {
+public class VentanaRemoveRoom extends JFrame implements ActionListener{
 
 	private JPanel panelPrincipal;
 	private JTextField textField;
-
+	private JButton btnAceptar;
+	
 	public VentanaRemoveRoom() {
 		setTitle("Remove Room");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -42,8 +51,25 @@ public class VentanaRemoveRoom extends JFrame {
 		JPanel panelAceptar = new JPanel();
 		panelPrincipal.add(panelAceptar);
 		
-		JButton btnAceptar = new JButton("Aceptar");
+		btnAceptar = new JButton("Aceptar");
 		panelAceptar.add(btnAceptar);
+		btnAceptar.addActionListener(this);
+
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource()==btnAceptar) {
+			
+			int id = Integer.parseInt(textField.getText());
+			int done = Hotel.getInstance().removerHabs1(id);
+			if (done==1) {
+				JOptionPane.showMessageDialog(null, "Se ha eliminado correctamente!");
+			} else if (done==0) {
+				JOptionPane.showMessageDialog(null, "No existe esa habitacion");
+			}
+		}
+		
 	}
 
 }

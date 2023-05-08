@@ -704,6 +704,58 @@ public class Hotel
 
 
 
+public int removerHabs1(int id) {
+	int a = removeHabitacion2(id);
+	LoaderSaver.salvarHabitaciones(habitaciones);
+	return a;
+}
+
+private int removeHabitacion2(int id)
+	{
+		Habitacion room = null;
+		for (Habitacion hab : habitaciones) {
+			if (hab.getId() == id) {
+				room = hab;
+				break;
+			}
+		}
+		if (room != null) {
+			habitaciones.remove(room);
+			return 1;
+			
+		} else {
+			System.out.println("No existe ninguna habitación con ese ID");
+			return 0;
+		}
+	}
+
+
+public void anadirHabs1(int id, String tipo, Boolean balcon, Boolean vista, Boolean cocina, Double tarifa, Boolean ocupado,
+		ArrayList<Cama> camas) {
+	for (Habitacion hab : this.habitaciones) 
+	{
+		System.out.println(hab);
+	}
+	Habitacion habitacion = crearHabitacion1(id,  tipo,  balcon,  vista,  cocina,  tarifa,  ocupado,
+			 camas);
+	addHabitacion(habitacion);
+	LoaderSaver.salvarHabitaciones(habitaciones);
+	System.out.println("La habitacion se añadió correctamente.");
+}
+
+public Habitacion crearHabitacion1(int id, String tipo, Boolean balcon, Boolean vista, Boolean cocina, Double tarifa, Boolean ocupado,
+		ArrayList<Cama> camas)
+{
+	//ArrayList<Cama> camas = new ArrayList<>();
+	
+	/*camas.add(new Cama(cama1));
+	camas.add(new Cama(cama2));
+	camas.add(new Cama(cama3));*/
+	Habitacion habitacion = new Habitacion(id, tipo, balcon, vista, cocina, camas, tarifa, ocupado);
+
+	return habitacion;
+}
+
 public String acceso1(String usuarioIngresado, String contrasenaIngresada) {
 	File archivo = new File("data/datalogin.txt");
 	BufferedReader br = null;
@@ -737,21 +789,56 @@ public String acceso1(String usuarioIngresado, String contrasenaIngresada) {
 	
 	return null;
 }
-
 public Habitacion buscarHabs1(Integer id) {
-	//int id = Integer.parseInt(input("Ingrese el id de la habitación que desea buscar."));
-	if(buscarHabitacion(id) == null){
-	return null;
-	}else {
-	return buscarHabitacion(id);
-	}
+//int id = Integer.parseInt(input("Ingrese el id de la habitación que desea buscar."));
+if(buscarHabitacion(id) == null){
+return null;
+}else {
+return buscarHabitacion(id);
+}
 }
 
+public 	Huesped crearHuesped1(String nombre, String documento, String email, String telefono) 
+{
+
+	Huesped huesped = new Huesped(nombre, documento, email, telefono);
+	
+	return huesped;	
+}
+private void crearConsumo1(String servicio, Boolean yaPagado, String doc, String docHuespedPrin, String tipoConsumo, String nombre, String email, String telefono) {
 
 
-	public static void main(String[] args)
+Servicio servicioo = null;
+while (servicio == null)
+{
+	for (String serv : servicios.keySet())
 	{
-		presentarVentana();
-		getInstance().ejecutarAplicacion();
+		System.out.println(serv);
 	}
+	servicioo = servicios.get(servicio);
+	if (servicio == null) {System.out.println("Invalid choice. Try again.");}
+}
+Huesped huesped = crearHuesped1(nombre, doc, email, telefono);
+
+Consumo consumo = new Consumo(servicioo, yaPagado, huesped, docHuespedPrin, tipoConsumo);
+
+
+consumo.addProductos();
+
+try {
+	facturarConsumo(consumo, docHuespedPrin);
+} catch (Exception e) {
+	System.out.println("An error occurred while facturing the consumption: " + e.getMessage());
+	System.out.println("Remember to check in before using hotel sevices.");
+}
+
+LoaderSaver.salvarReservas(reservas);
+}
+
+public static void main(String[] args)
+{
+	instance = new Hotel();
+	presentarVentana();
+	instance.ejecutarAplicacion();
+}
 }

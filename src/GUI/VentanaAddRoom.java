@@ -6,11 +6,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
+
+import Modelo.Cama;
+import Persistencia.Hotel;
+
 import java.awt.BorderLayout;
 import java.awt.Container;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.GridLayout;
@@ -22,6 +27,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JCheckBox;
 import java.awt.FlowLayout;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.AbstractListModel;
 
@@ -32,22 +38,12 @@ public class VentanaAddRoom extends JFrame implements ActionListener {
 	private JTextField textTarifa;
 	private JPanel panelOp;
 	protected JButton btnAddCama, btnCancel, btnDone;
-
-	/**
-	 * Launch the application.
-	 */
-	/**public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaAddRoom frame = new VentanaAddRoom();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
+	protected JRadioButton btnDoble, btnEstandar, btnSuite;
+	protected JCheckBox btnVista, btnCocina, btnBalcon;
+	protected JList<String> list;
+	protected DefaultListModel<String> listaa;
+	
+	
 	public VentanaAddRoom() {
 		setTitle("Añadir Habitacion");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -89,17 +85,17 @@ public class VentanaAddRoom extends JFrame implements ActionListener {
 		
 		JLabel lblTipo = new JLabel("Tipo:");
 		panelTipos.add(lblTipo);
-		JRadioButton btnDoble = new JRadioButton("Doble", false);
-		panelTipos.add(btnDoble);
 		
 		// GRUPO DE BOTONES #############
 		
 		ButtonGroup roomTypeButtonGroup = new ButtonGroup();
+		btnDoble = new JRadioButton("Doble", false);
+		panelTipos.add(btnDoble);
 		roomTypeButtonGroup.add(btnDoble); 
-		JRadioButton btnEstandar = new JRadioButton("Estandar", false);
+		btnEstandar = new JRadioButton("Estandar", false);
 		panelTipos.add(btnEstandar);
 		roomTypeButtonGroup.add(btnEstandar);
-		JRadioButton btnSuite = new JRadioButton("Suite", false);
+		btnSuite = new JRadioButton("Suite", false);
 		panelTipos.add(btnSuite);
 		roomTypeButtonGroup.add(btnSuite);
 		
@@ -111,13 +107,13 @@ public class VentanaAddRoom extends JFrame implements ActionListener {
 		
 		// CHECK BOXES #####################
 		
-		JCheckBox btnBalcon = new JCheckBox("Balcon");
+		btnBalcon = new JCheckBox("Balcon");
 		panelCama.add(btnBalcon);
 		
-		JCheckBox btnVista = new JCheckBox("Vista");
+		btnVista = new JCheckBox("Vista");
 		panelCama.add(btnVista);
 		
-		JCheckBox btnCocina = new JCheckBox("Cocina");
+		btnCocina = new JCheckBox("Cocina");
 		panelCama.add(btnCocina);
 		
 		JPanel panelCarac = new JPanel();
@@ -129,17 +125,8 @@ public class VentanaAddRoom extends JFrame implements ActionListener {
 		
 		// J LIST ##########
 	
-		
-		JList list = new JList();
-		list.setModel(new AbstractListModel() {
-			String[] values = new String[] {"fasfas", "safasg", "dsafadsf"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
+		list = new JList<String>();
+		listaa = new DefaultListModel<String>();
 		
 		panelCarac.add(list);
 		
@@ -155,17 +142,68 @@ public class VentanaAddRoom extends JFrame implements ActionListener {
 		
 		btnDone = new JButton("Aceptar");
 		panelInferior.add(btnDone);
+		btnDone.addActionListener(this);
+		list.setModel(listaa);
 		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		String tipo = "";
+		ArrayList<Integer> listaNums = new ArrayList<>();
 		if (e.getSource()==btnAddCama) {
-			dialogCama dialogo = new dialogCama();
+			dialogCama dialogo = new dialogCama(VentanaAddRoom.this);
 			dialogo.setVisible(true);
-		} 
-		
+		} else if (e.getSource()==btnDone) {
+			
+			try {
+				int id = Integer.parseInt(textId.getText());
+				if (btnEstandar.isSelected()) {
+					tipo = "estandar";
+				} else if (btnSuite.isSelected()){
+					tipo = "suite";
+				} else if (btnDoble.isSelected()) {
+					tipo = "doble";
+				}
+				Boolean vista = btnVista.isSelected();
+				Boolean balcon = btnBalcon.isSelected();
+				Boolean cocina = btnCocina.isSelected();
+				Double tarifa = Double.parseDouble(textTarifa.getText());
+				
+				for (int i =0; i<listaa.getSize();i++) {
+					if (listaa.getElementAt(i).equals("")||listaa.getElementAt(i)==null) {
+						listaNums.add(0);
+					} else if (listaa.getElementAt(i).equals("King")) {
+						listaNums.add(1);
+					} else if (listaa.getElementAt(i).equals("Queen")) {
+						listaNums.add(2);
+					} else if (listaa.getElementAt(i).equals("Doble")) {
+						listaNums.add(3);
+					} else if (listaa.getElementAt(i).equals("Sencilla")) {
+						listaNums.add(4);
+					} else if (listaa.getElementAt(i).equals("Niños")) {
+						listaNums.add(5);
+					}
+				}
+				ArrayList<Cama> listaCamas = new ArrayList<>();
+				for (int num: listaNums ) {
+					Cama camaa = new Cama(num);
+					listaCamas.add(camaa);
+				}
+				
+				Hotel.getInstance().anadirHabs1(id, tipo, balcon, vista, cocina, tarifa, false, listaCamas);
+				JOptionPane.showMessageDialog(null, "Se añadio correctamente");	
+				
+			} catch (NumberFormatException e1) {
+				e1.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Inserte cosas");
+			}
+			
+		}
 	}
+	public void addLista(String element) {
+		listaa.addElement(element);
+	}	
 	public void setId(String id) {
 		textId.setText(id);
 	}

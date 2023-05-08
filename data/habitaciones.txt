@@ -131,8 +131,8 @@
 1401;estandar;false;false;false;3;1;0;100.0;false
 1402;doble;true;false;true;5;2;0;200.0;false
 1403;estandar;false;false;false;3;1;0;100.0;false
-1404;suite;true;true;true;1;1;1;300.0;false
-1405;estandar;false;false;false;4;3;0;100.0;false
+1404;suite;true;true;true;1;1;1;300.0;true
+1405;estandar;false;false;false;4;3;0;100.0;true
 1406;estandar;true;true;false;4;0;0;100.0;false
 1407;doble;true;true;true;5;2;0;200.0;false
 1408;estandar;true;true;false;3;0;0;100.0;false
@@ -148,4 +148,4 @@
 1508;estandar;true;true;false;3;0;0;100.0;false
 1509;doble;true;true;false;5;1;0;200.0;false
 1510;doble;true;true;true;5;1;0;200.0;false
-1610;suite;true;true;true;1;1;1;200.0;false
+1610;suite;true;true;true;1;1;1;200.0;true

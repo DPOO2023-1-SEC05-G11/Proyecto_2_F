@@ -5,31 +5,26 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 
-public class dialogCama extends JDialog {
+public class dialogCama extends JDialog implements ActionListener{
 
 	private final JPanel panelPrincipal = new JPanel();
-
-	/**
-	 * Launch the application.
-	 
-	public static void main(String[] args) {
-		try {
-			dialogCama dialog = new dialogCama();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
-	public dialogCama() {
+	JButton okButton, cancelButton;
+	JComboBox<String> comboBox;
+	VentanaAddRoom ventanaPrin;
+	
+	public dialogCama(VentanaAddRoom parentFrame) {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Añadir Cama");
 		setBounds(100, 100, 450, 300);
@@ -40,13 +35,14 @@ public class dialogCama extends JDialog {
 		panelPrincipal.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(panelPrincipal, BorderLayout.CENTER);
 		panelPrincipal.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		ventanaPrin = parentFrame;
 		{
 			JLabel lbl1 = new JLabel("Seleccione tipo");
 			panelPrincipal.add(lbl1);
 		}
 		{
-			JComboBox<String> comboBox = new JComboBox<>();
-			comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"King", "Queen", "Niño", "Doble"}));
+			comboBox = new JComboBox<>();
+			comboBox.setModel(new DefaultComboBoxModel(new String[] {"King", "Queen", "Niños", "Doble"}));
 			panelPrincipal.add(comboBox);
 		}
 		{
@@ -54,18 +50,28 @@ public class dialogCama extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				okButton = new JButton("OK");
 				okButton.setActionCommand("OK");
+				okButton.addActionListener(this);
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				cancelButton = new JButton("Cancel");
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
 		
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource()==okButton) {
+			String cama = comboBox.getItemAt(comboBox.getSelectedIndex());
+			ventanaPrin.addLista(cama);
+		}
 		
 	}
 
