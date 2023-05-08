@@ -38,9 +38,9 @@ public class Huesped {
 	@Override
     public String toString() {
         return "Nombre: " + nombre +
-                "\nDocumento: " + documento +
-                "\nEmail: " + email +
-                "\nTeléfono: " + telefono;
+                ", Documento: " + documento +
+                ", Email: " + email +
+                ", Teléfono: " + telefono;
     }
 	
 }

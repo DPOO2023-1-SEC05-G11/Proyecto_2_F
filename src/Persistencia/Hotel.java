@@ -147,7 +147,7 @@ public class Hotel
 					 //Reservas
 					 if (opcion_seleccionada == 1) {
 						 int opcion_seleccionada2 = opcionesReservas();
-						 if (opcion_seleccionada2==1) {ejecutarCrearReserva();}//Crear nueva reserva
+						 if (opcion_seleccionada2==1){}// {ejecutarCrearReserva();}//Crear nueva reserva
 						 else if (opcion_seleccionada2==2){manejarReservas();}//Manejar reservas existentes
 						 				 
 					 //Consumos
@@ -188,7 +188,7 @@ public class Hotel
 	    
 	    Boolean yaPagado = Boolean.parseBoolean(input("Ingrese si el cliente paga de inmediato el consumo: true/false"));
 	    System.out.println("Por favor ingrese los informaciones del cliente");
-	    Huesped huesped = crearHuesped();
+	    Huesped huesped = null;//crearHuesped();
 	    String huespedPrincipalDocumento = input("Entre el documento del huesped principal");
 	    String tipo = input("Ingrese el tipo de consumo: individual/grupo/habitacion");
 	    
@@ -229,7 +229,7 @@ public class Hotel
 		if(reserva != null)
 		{
 			int opcion_seleccionada3 = opcionesManejarReserva();
-			if (opcion_seleccionada3==1) {checkIn(reserva);}//Check In
+			if (opcion_seleccionada3==1) {}//checkIn(reserva);}//Check In
 			else if (opcion_seleccionada3==2){checkOut(reserva);}//Check Out
 			else if (opcion_seleccionada3==3){cancelarReserva(reserva);}//Cancelar reserva
 			else if (opcion_seleccionada3==4){System.out.println(reserva);}//Buscar Reserva. Podemos agregar opciones para hacer algo con la reserva
@@ -239,13 +239,13 @@ public class Hotel
 
 	
 
-	private void cancelarReserva(ReservaEstadia reserva) {
+	public void cancelarReserva(ReservaEstadia reserva) {
 		reserva.cancelarReserva();
 		reservas.remove(reserva);
 		LoaderSaver.salvarReservas(reservas);
 	}
 
-	private ReservaEstadia buscarReserva(String documentoHuespedPrincipal) {
+	public ReservaEstadia buscarReserva(String documentoHuespedPrincipal) {
 		for (ReservaEstadia res : reservas)
 		{
 			if ( res.getHuespedPrincipal().getDocumento().equals(documentoHuespedPrincipal) ) {
@@ -546,15 +546,9 @@ public class Hotel
 		return habitacion;
 	}
 	
-	public 	Huesped crearHuesped() 
+	public 	Huesped crearHuesped(String nombre, String documento, String email, String telefono) 
 	{
-			String nombre = input("Por favor ingrese el nombre del huesped");
-			String documento = input("Por favor ingrese el documento del huesped");
-			String email = input("Por favor ingrese el email del huesped");
-			String telefono = input("Por favor ingrese el telefono del huesped");
-			Huesped huesped = new Huesped(nombre, documento, email, telefono);
-			
-			return huesped;	
+			return new Huesped(nombre, documento, email, telefono);
 	}
 
 	public Habitacion crearHabitacion()
@@ -615,21 +609,15 @@ public class Hotel
 		}
 	}
 	
-	public void ejecutarCrearReserva() {
+	public void ejecutarCrearReserva(Huesped huespedPrincipal, String fechaI, int duracion, int[] roomIDs) {
 	    ArrayList<Habitacion> habitaciones = new ArrayList<Habitacion>();
 
-	    System.out.println("Por favor ingrese las informaciones del huésped principal.");
-	    Huesped huespedPrincipal = crearHuesped();
 	    
-	    LocalDate fechaInicio = LocalDate.parse(input("Por favor escriba fecha de inicio de reserva en formato 'YYYY-MM-DD':"));
-	    int duracion = Integer.parseInt(input("Por favor escriba la duración de la estadía"));
-
-	    boolean addAnotherRoom = true;
-	    while (addAnotherRoom) {
+	    LocalDate fechaInicio = LocalDate.parse(fechaI);
+	    
+	    for (int id : roomIDs){
 	        try {
-	        	System.out.println("Por favor ingrese las informaciones de la habitacion que quiera reservar.");
-	            preguntarHabitaciones(fechaInicio, duracion);
-	            Habitacion habitacion = habSeleccionada();
+	        	Habitacion habitacion = buscarHabitacion(id);
 
 	            if (habitacion != null) {
 	            	if (habitacion.libreEntre(fechaInicio, duracion))
@@ -646,12 +634,6 @@ public class Hotel
 	            e.printStackTrace();
 	        }
 
-	        System.out.println("Desea agregar otra habitación?");
-	        String choice = input("Escriba '1' para agregar otra habitación o '0' para finalizar:");
-
-	        if (choice.equalsIgnoreCase("0")) {
-	            addAnotherRoom = false;
-	        }
 	    }
 	    
 	    ReservaEstadia res = new ReservaEstadia(fechaInicio, duracion, huespedPrincipal, habitaciones);
@@ -671,20 +653,13 @@ public class Hotel
 		
 	}
 
-	public void checkIn(ReservaEstadia reserva)
+	public void checkIn(ReservaEstadia reserva, ArrayList<Huesped> huespedes)
 	{
-		ArrayList<Huesped> huespedes = new ArrayList<Huesped>();
-		int numpersonas = Integer.parseInt(input("Por favor escriba cuantas personas estarán en el grupo"));
-		
-		for(int i = 1; i <= numpersonas; i++)
-		{
-			huespedes.add(crearHuesped());
-		}
 		reserva.checkIn(huespedes);
 		LoaderSaver.salvarReservas(reservas);
 	}
 	
-	private void checkOut(ReservaEstadia reserva) {
+	public void checkOut(ReservaEstadia reserva) {
 		reserva.checkOut();	
 		facturas.add(new Factura(reserva, 0).guardarStringReserva());
 		reservas.remove(reserva);
@@ -776,8 +751,7 @@ public Habitacion buscarHabs1(Integer id) {
 
 	public static void main(String[] args)
 	{
-		Hotel aplicacion = new Hotel();
 		presentarVentana();
-		aplicacion.ejecutarAplicacion();
+		getInstance().ejecutarAplicacion();
 	}
 }
