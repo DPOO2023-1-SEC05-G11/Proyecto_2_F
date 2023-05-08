@@ -44,6 +44,7 @@ public class VentanaLogin extends JFrame implements ActionListener {
 		btnNewButton_1.setBounds(181, 158, 85, 21);
 		panelPrincipal.add(btnNewButton_1);
 		btnNewButton_1.addActionListener(this);
+		getRootPane().setDefaultButton(btnNewButton_1);
 		
 		textFieldUsuario = new JTextField();
 		textFieldUsuario.setBounds(138, 83, 189, 19);
@@ -78,9 +79,11 @@ public class VentanaLogin extends JFrame implements ActionListener {
 			} else if (tipo.equals("empleado")) {
 				VentanaEmpleado ventana = new VentanaEmpleado();
 				ventana.setVisible(true);
+				dispose();
 			} else if (tipo.equals("admin")) {
 				VentanaAdmin ventana = new VentanaAdmin();
 				ventana.setVisible(true);
+				dispose();
 				}
 			
 		}

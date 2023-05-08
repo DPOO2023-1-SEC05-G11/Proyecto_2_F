@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import Modelo.Cama;
@@ -12,6 +13,7 @@ import Persistencia.Hotel;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -49,6 +51,10 @@ public class VentanaAddRoom extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		setLocationRelativeTo(null);
+
+		
+
+		
 
 		panelPrincipal = new JPanel();
 		panelPrincipal.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -127,8 +133,11 @@ public class VentanaAddRoom extends JFrame implements ActionListener {
 	
 		list = new JList<String>();
 		listaa = new DefaultListModel<String>();
+
+		JScrollPane scrollPaneLista = new JScrollPane(list);
+		scrollPaneLista.setPreferredSize(new Dimension(200, 50));
 		
-		panelCarac.add(list);
+		panelCarac.add(scrollPaneLista);
 		
 		btnAddCama = new JButton("Añadir cama");
 		btnAddCama.addActionListener(this);
@@ -139,11 +148,14 @@ public class VentanaAddRoom extends JFrame implements ActionListener {
 		
 		btnCancel = new JButton("Cancelar");
 		panelInferior.add(btnCancel);
+		btnCancel.addActionListener(this);
 		
 		btnDone = new JButton("Aceptar");
 		panelInferior.add(btnDone);
 		btnDone.addActionListener(this);
 		list.setModel(listaa);
+
+		pack();
 		
 	}
 
@@ -157,7 +169,9 @@ public class VentanaAddRoom extends JFrame implements ActionListener {
 		} else if (e.getSource()==btnDone) {
 			
 			try {
-				int id = Integer.parseInt(textId.getText());
+				int id;
+				id = Integer.parseInt(textId.getText());
+				
 				if (btnEstandar.isSelected()) {
 					tipo = "estandar";
 				} else if (btnSuite.isSelected()){
@@ -195,10 +209,18 @@ public class VentanaAddRoom extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null, "Se añadio correctamente");	
 				
 			} catch (NumberFormatException e1) {
-				e1.printStackTrace();
-				JOptionPane.showMessageDialog(null, "Inserte cosas");
+				System.err.println("Exception occurred: " + e1);
+				JOptionPane.showMessageDialog(null, "Invalid ID. Please enter a valid numeric value.");
+			} catch (Exception e1) {
+				System.err.println("Exception occurred: " + e1);
+				JOptionPane.showMessageDialog(null, "An error occurred. Please check the input.");
 			}
+
 			
+			
+			
+		}else if(e.getSource()==btnCancel) {
+			dispose();
 		}
 	}
 	public void addLista(String element) {

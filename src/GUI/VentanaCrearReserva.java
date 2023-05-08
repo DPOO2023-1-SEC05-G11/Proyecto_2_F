@@ -158,12 +158,19 @@ public class VentanaCrearReserva extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String newItem = JOptionPane.showInputDialog(null, "Entre el numero de la habitacion que quiere:");
                 
-                if (newItem != null && !newItem.isEmpty()) {
+                if (Hotel.getInstance().buscarHabs1(Integer.parseInt(newItem)) != null)
+                {
+                    if (newItem != null && !newItem.isEmpty()) {
                     listModel.addElement(newItem);
                 
                     JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
                     verticalScrollBar.setValue(verticalScrollBar.getMaximum());
                 }
+                }else{
+                    JOptionPane.showMessageDialog(null, "La habitacion no existe!", "ID error!", JOptionPane.WARNING_MESSAGE);
+                }
+
+                
             }
         });
 
@@ -200,7 +207,7 @@ public class VentanaCrearReserva extends JFrame {
         btnAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Get the values from the text fields
+                try {
                 String fechaInicio = textFieldInicio.getText();
                 int numNoches = Integer.parseInt(textFieldNoches.getText());
                 String nombreHuesped = textFieldNombre.getText();
@@ -213,16 +220,16 @@ public class VentanaCrearReserva extends JFrame {
                     selectedItems[i]=Integer.parseInt(listModel.getElementAt(i));
                 }
                 
-                try {
+                
                     Hotel.getInstance().ejecutarCrearReserva(huesped, fechaInicio, numNoches, selectedItems);
                     dispose();
                 } catch (Exception ex) {
                     // Handle the exception here
                     System.out.println("An error occurred while executing crearReserva: " + ex.getMessage());
-                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Ingrese todas las informaciones necesarias.", "Error!", JOptionPane.WARNING_MESSAGE);
                 }
                 
-                dispose();
+                
             }
         });
         

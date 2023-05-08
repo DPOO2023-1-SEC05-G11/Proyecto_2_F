@@ -11,7 +11,7 @@ import javax.swing.JFileChooser;
 
 public class panelRooms extends JPanel implements ActionListener {
 	
-	JButton btnCargar, btnAdd, btnUpdate, btnRemove, btnSearch;
+	JButton btnCargar, btnAdd, btnRemove, btnSearch;
 
 	public panelRooms() {
 		
@@ -22,10 +22,6 @@ public class panelRooms extends JPanel implements ActionListener {
 		btnAdd = new JButton("Add");
 		add(btnAdd);
 		btnAdd.addActionListener(this);
-		
-		btnUpdate = new JButton("Update");
-		add(btnUpdate);
-		btnUpdate.addActionListener(this);
 		
 		btnRemove = new JButton("Remove");
 		add(btnRemove);
@@ -52,7 +48,7 @@ public class panelRooms extends JPanel implements ActionListener {
 			VentanaSearchRoom ventanaSearch = new VentanaSearchRoom();
 			ventanaSearch.setVisible(true);
 		}
-		else if (e.getSource()==btnCargar || e.getSource()==btnUpdate) {
+		else if (e.getSource()==btnCargar) {
 			
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setCurrentDirectory(new File("."));

@@ -13,6 +13,8 @@ import javax.swing.JLabel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.FlowLayout;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
@@ -40,6 +42,8 @@ public class VentanaAdmin extends JFrame {
 		pestañas.add("Services", panel2);
 		pestañas.add("Rooms", panel1);
 		getContentPane().add(pestañas);
+
+
 		
 	}
 

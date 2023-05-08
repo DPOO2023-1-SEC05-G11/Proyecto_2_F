@@ -16,6 +16,8 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.Dialog;
+
 
 public class dialogCama extends JDialog implements ActionListener{
 
@@ -29,6 +31,7 @@ public class dialogCama extends JDialog implements ActionListener{
 		setTitle("Añadir Cama");
 		setBounds(100, 100, 450, 300);
 		setLocationRelativeTo(null);
+		setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 
 		setSize(200,200);
 		getContentPane().setLayout(new BorderLayout());
@@ -42,7 +45,7 @@ public class dialogCama extends JDialog implements ActionListener{
 		}
 		{
 			comboBox = new JComboBox<>();
-			comboBox.setModel(new DefaultComboBoxModel(new String[] {"King", "Queen", "Niños", "Doble"}));
+			comboBox.setModel(new DefaultComboBoxModel(new String[] {"King", "Queen", "Niños", "Doble", "Sencilla"}));
 			panelPrincipal.add(comboBox);
 		}
 		{
@@ -50,15 +53,16 @@ public class dialogCama extends JDialog implements ActionListener{
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				okButton = new JButton("OK");
+				okButton = new JButton("Añadir");
 				okButton.setActionCommand("OK");
 				okButton.addActionListener(this);
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				cancelButton = new JButton("Cancel");
+				cancelButton = new JButton("Close");
 				cancelButton.setActionCommand("Cancel");
+				cancelButton.addActionListener(this);
 				buttonPane.add(cancelButton);
 			}
 		}
@@ -71,8 +75,9 @@ public class dialogCama extends JDialog implements ActionListener{
 		if (e.getSource()==okButton) {
 			String cama = comboBox.getItemAt(comboBox.getSelectedIndex());
 			ventanaPrin.addLista(cama);
+		}else if(e.getSource()==cancelButton) {
+			dispose();
 		}
-		
 	}
 
 }
