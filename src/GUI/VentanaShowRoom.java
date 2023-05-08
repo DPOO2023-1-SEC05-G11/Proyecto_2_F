@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Modelo.Habitacion;
+
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 
@@ -12,7 +15,8 @@ public class VentanaShowRoom extends JFrame {
 
 	private JPanel panelPrincipal;
 
-	public static void main(String[] args) {
+
+	/* public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -23,10 +27,11 @@ public class VentanaShowRoom extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
+	
 
-	public VentanaShowRoom() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public VentanaShowRoom(Habitacion hab) {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		panelPrincipal = new JPanel();
 		panelPrincipal.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -37,18 +42,24 @@ public class VentanaShowRoom extends JFrame {
 		JPanel panel = new JPanel();
 		panelPrincipal.add(panel, BorderLayout.NORTH);
 		
-		JLabel lblId = new JLabel("ID: ");
+		JLabel lblId = new JLabel("ID: "+hab.getId());
 		panel.add(lblId);
 		
 		JLabel IdChangeable = new JLabel("0");
 		panel.add(IdChangeable);
 		
-		JLabel lblTarifa = new JLabel("Tarifa:");
+		JLabel lblTarifa = new JLabel("Tarifa: "+hab.getTarifa());
 		panel.add(lblTarifa);
 		
 		JLabel tarifaChangeable = new JLabel("0");
 		panel.add(tarifaChangeable);
 		
+		JLabel lblEspacioNinos = new JLabel("Espacio ninos: "+hab.getEspacioNinos());
+		panel.add(lblEspacioNinos);
+
+		JLabel lblEspacioAdultos = new JLabel("Espacio adultos: "+hab.getEspacioAdultos());
+		panel.add(lblEspacioAdultos);
+
 		JPanel panel_1 = new JPanel();
 		panelPrincipal.add(panel_1, BorderLayout.CENTER);
 	}

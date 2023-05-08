@@ -5,3 +5,4 @@ facturaID=2;facturaTipo=reserva;huespedPrincipalDocumento=1;precioTotal=22000.0;
 facturaID=1;facturaTipo=consumo;documentoHuesped=123;precioTotal=20000.0;tipoServicio=guia
 facturaID=2;facturaTipo=consumo;documentoHuesped=9;precioTotal=10000.0;tipoServicio=spa
 facturaID=1;facturaTipo=reserva;huespedPrincipalDocumento=8;precioTotal=100.0;habitaciones(id:precio)=1403:100.0;Consumos Individuales=s:0.0;Consumos por Habitacion=null;precioTotal Consumos Grupales=0.0
+facturaID=1;facturaTipo=reserva;huespedPrincipalDocumento=000000;precioTotal=100.0;habitaciones(id:precio)=603:100.0;Consumos Individuales=null;Consumos por Habitacion=null;precioTotal Consumos Grupales=0.0
