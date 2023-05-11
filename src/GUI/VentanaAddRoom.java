@@ -39,7 +39,7 @@ public class VentanaAddRoom extends JFrame implements ActionListener {
 	private JTextField textId;
 	private JTextField textTarifa;
 	private JPanel panelOp;
-	protected JButton btnAddCama, btnCancel, btnDone;
+	protected JButton btnAddCama, btnRemoverCama, btnCancel, btnDone;
 	protected JRadioButton btnDoble, btnEstandar, btnSuite;
 	protected JCheckBox btnVista, btnCocina, btnBalcon;
 	protected JList<String> list;
@@ -142,6 +142,10 @@ public class VentanaAddRoom extends JFrame implements ActionListener {
 		btnAddCama = new JButton("Añadir cama");
 		btnAddCama.addActionListener(this);
 		panelCarac.add(btnAddCama);
+
+		btnRemoverCama = new JButton("Remover cama");
+		btnRemoverCama.addActionListener(this);
+		panelCarac.add(btnRemoverCama);
 		
 		JPanel panelInferior = new JPanel();
 		panelPrincipal.add(panelInferior, BorderLayout.SOUTH);
@@ -166,8 +170,15 @@ public class VentanaAddRoom extends JFrame implements ActionListener {
 		if (e.getSource()==btnAddCama) {
 			dialogCama dialogo = new dialogCama(VentanaAddRoom.this);
 			dialogo.setVisible(true);
-		} else if (e.getSource()==btnDone) {
-			
+		}else if (e.getSource() == btnRemoverCama) {
+			int selectedIndex = list.getSelectedIndex();
+			if (selectedIndex != -1) {
+				listaa.remove(selectedIndex);
+			} else {
+				JOptionPane.showMessageDialog(null, "Please select an item to remove.", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}else if (e.getSource()==btnDone) {
+		
 			try {
 				int id;
 				id = Integer.parseInt(textId.getText());
@@ -205,8 +216,17 @@ public class VentanaAddRoom extends JFrame implements ActionListener {
 					listaCamas.add(camaa);
 				}
 				
-				Hotel.getInstance().anadirHabs1(id, tipo, balcon, vista, cocina, tarifa, false, listaCamas);
-				JOptionPane.showMessageDialog(null, "Se añadio correctamente");	
+				if (Hotel.getInstance().buscarHabs1(id) != null)
+				{
+					JOptionPane.showMessageDialog(null, "Ya existe la habitacion 1610.");	
+				}else{
+					Hotel.getInstance().anadirHabs1(id, tipo, balcon, vista, cocina, tarifa, false, listaCamas);
+					dispose();
+					JOptionPane.showMessageDialog(null, "Se añadio correctamente");	
+				}
+
+				
+				
 				
 			} catch (NumberFormatException e1) {
 				System.err.println("Exception occurred: " + e1);
@@ -215,9 +235,6 @@ public class VentanaAddRoom extends JFrame implements ActionListener {
 				System.err.println("Exception occurred: " + e1);
 				JOptionPane.showMessageDialog(null, "An error occurred. Please check the input.");
 			}
-
-			
-			
 			
 		}else if(e.getSource()==btnCancel) {
 			dispose();

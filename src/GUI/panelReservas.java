@@ -32,18 +32,15 @@ public class panelReservas extends JPanel implements ActionListener{
 			VentanaCrearReserva crearReserva = new VentanaCrearReserva();
 			crearReserva.setVisible(true);
 		}else if (e.getSource() == btnManejarReservas) {
-			String userInput = JOptionPane.showInputDialog(null, "Entre il ID del huesped principal de la reserva:");
+			String userInput = JOptionPane.showInputDialog(null, "Entre el ID del huesped principal de la reserva:");
 
 			try {
 				if (userInput != null && !userInput.isEmpty()) {
 					VentanaManejarReserva manejarReserva = new VentanaManejarReserva(Hotel.getInstance().buscarReserva(userInput));
 					manejarReserva.setVisible(true);
-				} else {
-					JOptionPane.showMessageDialog(null, "Invalid input. Please enter a string.");
 				}
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(null, "An error occurred: " + ex.getMessage());
-				ex.printStackTrace();
 			}
 		}
 	}

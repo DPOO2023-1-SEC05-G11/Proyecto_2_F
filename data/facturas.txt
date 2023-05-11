@@ -1,8 +1,11 @@
 facturaID=1;facturaTipo=reserva;huespedPrincipalDocumento=1234567;precioTotal=30500.0;habitaciones(id:precio)=1505:100.0,1509:200.0,1610:200.0,;Consumos Individuales=mikael:0.0,;Consumos por Habitacion=null;precioTotal Consumos Grupales=30000.0
 facturaID=2;facturaTipo=reserva;huespedPrincipalDocumento=1;precioTotal=74300.0;habitaciones(id:precio)=1404:300.0;Consumos Individuales=jos:5000.0;Consumos por Habitacion=jos:49000.0;precioTotal Consumos Grupales=20000.0
-facturaID=1;facturaTipo=consumo;documentoHuesped=1;precioTotal=20000.0;tipoServicio=spa
-facturaID=2;facturaTipo=reserva;huespedPrincipalDocumento=1;precioTotal=22000.0;habitaciones(id:precio)=1403:100.0;Consumos Individuales=j:5000.0;Consumos por Habitacion=j:11900.0;precioTotal Consumos Grupales=5000.0
-facturaID=1;facturaTipo=consumo;documentoHuesped=123;precioTotal=20000.0;tipoServicio=guia
-facturaID=2;facturaTipo=consumo;documentoHuesped=9;precioTotal=10000.0;tipoServicio=spa
-facturaID=1;facturaTipo=reserva;huespedPrincipalDocumento=8;precioTotal=100.0;habitaciones(id:precio)=1403:100.0;Consumos Individuales=s:0.0;Consumos por Habitacion=null;precioTotal Consumos Grupales=0.0
-facturaID=1;facturaTipo=reserva;huespedPrincipalDocumento=000000;precioTotal=100.0;habitaciones(id:precio)=603:100.0;Consumos Individuales=null;Consumos por Habitacion=null;precioTotal Consumos Grupales=0.0
+facturaID=3;facturaTipo=consumo;documentoHuesped=1;precioTotal=20000.0;tipoServicio=spa
+facturaID=4;facturaTipo=reserva;huespedPrincipalDocumento=1;precioTotal=22000.0;habitaciones(id:precio)=1403:100.0;Consumos Individuales=j:5000.0;Consumos por Habitacion=j:11900.0;precioTotal Consumos Grupales=5000.0
+facturaID=5;facturaTipo=consumo;documentoHuesped=123;precioTotal=20000.0;tipoServicio=guia
+facturaID=6;facturaTipo=consumo;documentoHuesped=9;precioTotal=10000.0;tipoServicio=spa
+facturaID=7;facturaTipo=reserva;huespedPrincipalDocumento=8;precioTotal=100.0;habitaciones(id:precio)=1403:100.0;Consumos Individuales=s:0.0;Consumos por Habitacion=null;precioTotal Consumos Grupales=0.0
+facturaID=8;facturaTipo=reserva;huespedPrincipalDocumento=000000;precioTotal=100.0;habitaciones(id:precio)=603:100.0;Consumos Individuales=null;Consumos por Habitacion=null;precioTotal Consumos Grupales=0.0
+facturaID=9;facturaTipo=consumo;documentoHuesped=987;precioTotal=30000.0;tipoServicio=spa
+facturaID=10;facturaTipo=consumo;documentoHuesped=9;precioTotal=5000.0;tipoServicio=restaurante
+facturaID=11;facturaTipo=reserva;huespedPrincipalDocumento=2;precioTotal=100.0;habitaciones(id:precio)=505:100.0;Consumos Individuales=null;Consumos por Habitacion=null;precioTotal Consumos Grupales=0.0

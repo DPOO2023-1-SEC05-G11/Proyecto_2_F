@@ -5,12 +5,14 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import Modelo.*;
 import Persistencia.Hotel;
 
 import javax.swing.BoxLayout;
@@ -18,6 +20,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 
 import java.awt.GridLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -32,14 +35,19 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.AbstractListModel;
+import javax.swing.Box;
+
 import java.awt.FlowLayout;
 import java.awt.Frame;
 
 public class panelConsumo extends JPanel {
-	private JTextField textHuesped;
-	private JTextField textField;
+	private JTextField documentoHPrincipal;
+	private JTextField textFieldNombre;
+	private JTextField textFieldDocumento;
+	private JTextField textFieldCorreo;
+	private JTextField textFieldTelefono;
 	private static double precioTotal = 0.0;
-	private static DefaultListModel<String> listModel;
+	private static DefaultListModel<String> listModel = new DefaultListModel<>();
     private static JLabel lblPrecioTotal;
 	
 	public panelConsumo() {
@@ -49,25 +57,45 @@ public class panelConsumo extends JPanel {
 		add(panelIzq);
 		panelIzq.setLayout(new GridLayout(5, 0, 0, 0));
 		
-		JPanel panel = new JPanel();
-		panelIzq.add(panel);
-		
-		JLabel lblHuesped = new JLabel("Huesped: ");
-		panel.add(lblHuesped);
-		
-		textHuesped = new JTextField();
-		panel.add(textHuesped);
-		textHuesped.setColumns(10);
+		JPanel panelHuesped = new JPanel(new BorderLayout());
+		panelIzq.add(panelHuesped);
+
+		JLabel headerLabel = new JLabel("Informaciones del Huesped");
+		headerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		panelHuesped.add(headerLabel, BorderLayout.NORTH);
+
+		JPanel panelHuesped2 = new JPanel(new GridLayout(4, 2));
+		panelHuesped.add(panelHuesped2);
+
+		panelHuesped2.add(new JLabel("Nombre: "));
+		textFieldNombre = new JTextField();
+		panelHuesped2.add(textFieldNombre);
+		textFieldNombre.setColumns(10);
+
+		panelHuesped2.add(new JLabel("Documento: "));
+		textFieldDocumento = new JTextField();
+		panelHuesped2.add(textFieldDocumento);
+		textFieldDocumento.setColumns(10);
+
+		panelHuesped2.add(new JLabel("Correo: "));
+		textFieldCorreo = new JTextField();
+		panelHuesped2.add(textFieldCorreo);
+		textFieldCorreo.setColumns(10);
+
+		panelHuesped2.add(new JLabel("Telefono: "));
+		textFieldTelefono = new JTextField();
+		panelHuesped2.add(textFieldTelefono);
+		textFieldTelefono.setColumns(10);
 		
 		JPanel panelHuesPrinc = new JPanel();
 		panelIzq.add(panelHuesPrinc);
 		
-		JLabel lblPrincipal = new JLabel("Huesped principal:");
+		JLabel lblPrincipal = new JLabel("DocumentoHues principal:");
 		panelHuesPrinc.add(lblPrincipal);
 		
-		textField = new JTextField();
-		panelHuesPrinc.add(textField);
-		textField.setColumns(10);
+		documentoHPrincipal = new JTextField();
+		panelHuesPrinc.add(documentoHPrincipal);
+		documentoHPrincipal.setColumns(10);
 		
 		JPanel panelTipo = new JPanel();
 		panelIzq.add(panelTipo);
@@ -83,7 +111,7 @@ public class panelConsumo extends JPanel {
 		JRadioButton habitacion = new JRadioButton("Habitacion", false);
 		panelTipo.add(habitacion);
 		grupoTipo.add(habitacion);
-		JRadioButton grupo = new JRadioButton("Individual", false);
+		JRadioButton grupo = new JRadioButton("Grupo", false);
 		panelTipo.add(grupo);
 		grupoTipo.add(grupo);
 		
@@ -104,11 +132,40 @@ public class panelConsumo extends JPanel {
 		JPanel panelInferior = new JPanel();
 		panelIzq.add(panelInferior);
 		
-		JButton btnCancel = new JButton("Cancelar");
-		panelInferior.add(btnCancel);
+		JButton btnClear = new JButton("Clear");
+		btnClear.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to clear the information?", "Confirmation", JOptionPane.YES_NO_OPTION);
+
+				if (result == JOptionPane.YES_OPTION) {
+					documentoHPrincipal.setText("");
+					textFieldNombre.setText("");
+					textFieldDocumento.setText("");
+					textFieldCorreo.setText("");
+					textFieldTelefono.setText("");
+			
+					grupoTipo.clearSelection();
+					grupoPagado.clearSelection();
+			
+					listModel.removeAllElements();
+			
+					precioTotal = 0.0;
+					lblPrecioTotal.setText("Precio Total: $COP " + precioTotal);
+				} 
+				
+				}
+		});
 		
+
+		panelInferior.add(btnClear);
+
+
+
 		JButton btnFacturar = new JButton("Facturar");
 		panelInferior.add(btnFacturar);
+		
+
 		
 		JPanel panelDer = new JPanel();
 		add(panelDer);
@@ -145,18 +202,13 @@ public class panelConsumo extends JPanel {
 		panelServ.add(panel_2);
 		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.Y_AXIS));
 		
-		JLabel lblServ = new JLabel("Servicio seleccionado: ");
-		panel_2.add(lblServ);
-		lblServ.setHorizontalAlignment(SwingConstants.RIGHT);
-		
-		JLabel lblServSeleccionado = new JLabel("\n Ningun seleccion");
+		panel_2.add(new JLabel("Servicio seleccionado: "));
+
+		JLabel lblServSeleccionado = new JLabel();
 		panel_2.add(lblServSeleccionado);
 
-		
-
-		JLabel lblPrecioTotal = new JLabel("Precio Total: $COP "+precioTotal);
-		panel_2.add(lblPrecioTotal);
-		lblPrecioTotal.setHorizontalAlignment(SwingConstants.RIGHT);
+		list.setSelectedIndex(0);
+		lblServSeleccionado.setText(list.getSelectedValue());
 
 		list.addListSelectionListener(e -> {
 			if (!e.getValueIsAdjusting()) {
@@ -165,12 +217,22 @@ public class panelConsumo extends JPanel {
 			}
 		});
 
+		panel_2.add(Box.createVerticalStrut(10));
+		panel_2.add(new JLabel("Precio Total:"));
+
+		
+		lblPrecioTotal = new JLabel("$COP "+precioTotal);
+		panel_2.add(lblPrecioTotal);
+		lblPrecioTotal.setHorizontalAlignment(SwingConstants.RIGHT);
+
+		
+
 
 		JPanel panelListaProd = new JPanel();
 		panelDer.add(panelListaProd);
 		panelListaProd.setLayout(new GridLayout(0, 2, 0, 0));
 		
-		DefaultListModel<String> listModel = new DefaultListModel<>();
+		listModel = new DefaultListModel<>();
 		JList<String> listProd = new JList<>(listModel);
 
 		JScrollPane scrollPaneProd = new JScrollPane(listProd);
@@ -185,16 +247,12 @@ public class panelConsumo extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
-
 				
-
-				String service = lblServSeleccionado.getText().toLowerCase();
-				
-				//precioTotal += 
-				addProdDialog(panelConsumo.this, Hotel.getInstance().getServicios().get(service).getMap());
+					String service = lblServSeleccionado.getText().toLowerCase();
+					addProdDialog(panelConsumo.this, Hotel.getInstance().getServicios().get(service).getMap());
 
 				}catch(Exception ex){
-					System.out.println("An error occurred while executing crearReserva: " + ex.getMessage());
+					System.out.println("An error occurred while executing Add Producto: " + ex.getMessage());
 					JOptionPane.showMessageDialog(null, "Seleccione un tipo de servicio.", "Error!", JOptionPane.WARNING_MESSAGE);
 				}
 			}
@@ -204,13 +262,88 @@ public class panelConsumo extends JPanel {
 		JButton btnRemove = new JButton("Remove Producto");
 		btnRemove.setHorizontalAlignment(SwingConstants.LEADING);
 		panel_1.add(btnRemove);
+
+		btnRemove.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int selectedIndex = listProd.getSelectedIndex();
+					if (selectedIndex != -1) {
+						String selectedItem = listModel.getElementAt(selectedIndex);
+						String name = selectedItem.split(",")[0].trim();
+						int price = Hotel.getInstance().getServicios().get(lblServSeleccionado.getText().toLowerCase()).getMap().get(name);
+		
+						listModel.removeElementAt(selectedIndex);
+		
+						precioTotal -= price;
+						lblPrecioTotal.setText("Precio Total: $COP " + precioTotal);
+					} else {
+						JOptionPane.showMessageDialog(null, "Seleccione un producto para eliminar.", "Nada Seleccionada!", JOptionPane.WARNING_MESSAGE);
+					}
+				} catch (Exception ex) {
+					System.out.println("An error occurred while executing Remove Producto: " + ex.getMessage());
+					JOptionPane.showMessageDialog(null, "Seleccione un tipo de servicio.", "Error!", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
+
+
+		btnFacturar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String documentoHuespedPrincipal = documentoHPrincipal.getText();
+					Huesped huesped = new Huesped(textFieldNombre.getText(), textFieldDocumento.getText(), textFieldCorreo.getText(), textFieldTelefono.getText());
+					String tipo = "";
+					if (individual.isSelected()) {
+						tipo = "individual";
+					} else if (habitacion.isSelected()) {
+						tipo = "habitacion";
+					} else if (grupo.isSelected()) {
+						tipo = "grupo";
+					}
+					boolean yaPagado = btnSi.isSelected();
+					Servicio servicio = Hotel.getInstance().getServicios().get(list.getSelectedValue().toLowerCase());
+
+					Consumo consumo = new Consumo(servicio, yaPagado, huesped, documentoHuespedPrincipal, tipo);
+
+					consumo.setPrecioTotal((int) precioTotal);
+
+					int result = JOptionPane.showConfirmDialog(null, "Está seguro de que quieres faturar este consumo?", "Confirmation", JOptionPane.YES_NO_OPTION);
+
+					if (result == JOptionPane.YES_OPTION) {
+
+						Hotel.getInstance().facturarConsumo(consumo, documentoHuespedPrincipal);
+
+						// Clear
+						documentoHPrincipal.setText("");
+						textFieldNombre.setText("");
+						textFieldDocumento.setText("");
+						textFieldCorreo.setText("");
+						textFieldTelefono.setText("");
+
+						grupoTipo.clearSelection();
+						grupoPagado.clearSelection();
+
+						listModel.removeAllElements();
+
+						precioTotal = 0.0;
+						lblPrecioTotal.setText("$COP " + precioTotal);
+					}
+				} catch (Exception e3) {
+					
+					System.out.println("An error occurred while executing Facturar: " + e3.getMessage());
+					JOptionPane.showMessageDialog(null, "Recuerde hacer el check-in antes de aprovechar de los servicios del hotel.", "Check In!", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
+		
 		
 
 	}
 
 
 	private static void addProdDialog(JPanel parentPanel, HashMap<String, Integer> hashMap) {
-		double precio = 0.0;
 
         JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(parentPanel), "Custom Dialog", true);
         dialog.setPreferredSize(new Dimension(300, 200));
@@ -243,7 +376,7 @@ public class panelConsumo extends JPanel {
 		
 					// Update the total price
 					precioTotal += precio;
-					lblPrecioTotal.setText("Precio Total: $COP " + precioTotal);
+					lblPrecioTotal.setText("$COP " + precioTotal);
 		
 					dialog.dispose();
 				}

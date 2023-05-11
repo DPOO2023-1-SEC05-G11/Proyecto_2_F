@@ -102,7 +102,7 @@ public class Hotel
 		this.habitaciones = LoaderSaver.cargarHabitaciones();
 		for (String nombreServicio : LoaderSaver.serviciosACargar())
 		{
-			Servicio servicio = new Servicio(LoaderSaver.cargarServicio(nombreServicio));
+			Servicio servicio = new Servicio(LoaderSaver.cargarServicio(nombreServicio), nombreServicio);
 			this.servicios.put(nombreServicio, servicio);
 			servicio.setName(nombreServicio);
 		}
@@ -111,6 +111,8 @@ public class Hotel
 		
 		this.facturas = LoaderSaver.cargarFacturas();
 		LoaderSaver.salvarFacturas(facturas);
+
+		contadorFactura = LoaderSaver.getContadorFactura(facturas);
 		
 		
 		String acceso = acceso();
@@ -128,7 +130,7 @@ public class Hotel
 						int opcion_seleccionada2 = opcionesHabs();
 						if (opcion_seleccionada2 == 1) {cargarHabs();}//Cargar habitaciones
 						else if (opcion_seleccionada2 == 2) {anadirHabs();} //Añadir habitaciones
-						else if (opcion_seleccionada2 == 3) {actualizarHabs();} //Actualizar habitaciones
+						else if (opcion_seleccionada2 == 3) {actualizarHabs(new File(""));} //Actualizar habitaciones
 						else if (opcion_seleccionada2 == 4) {removerHabs();} //remover habitaciones
 						else if (opcion_seleccionada2 == 5) {buscarHabs();}//buscar habitaciones
 					//Servicios
@@ -136,7 +138,7 @@ public class Hotel
 						int opcion_seleccionada2 = opcionesServs();
 						if (opcion_seleccionada2 == 1) {anadirServs();}//Añadir servicios
 						else if (opcion_seleccionada2 == 2) {actualizarServs();}//Actualizar servicios 
-						else if (opcion_seleccionada2 == 3) {removerServs();}//Remover servicios
+						else if (opcion_seleccionada2 == 3) {}//removerServs();}//Remover servicios
 						else if (opcion_seleccionada2 == 4) {searchServicio();}//Buscar servicios
 					//Salir
 				 	}else if (opcion_seleccionada == 3) {continuar = terminarAplicacion();} 
@@ -207,7 +209,7 @@ public class Hotel
 	    LoaderSaver.salvarReservas(reservas);
 	}
 
-	private void facturarConsumo(Consumo consumo, String huespedPrincipalDocumento) throws IllegalStateException {
+	public void facturarConsumo(Consumo consumo, String huespedPrincipalDocumento) throws IllegalStateException {
 		
 		ReservaEstadia reserva = buscarReserva(huespedPrincipalDocumento);
 		if (reserva.getConsumos() == null)
@@ -220,7 +222,8 @@ public class Hotel
 		    	LoaderSaver.salvarFacturas(facturas);
 				consumo.setPrecioTotal(0);
 			}
-				reserva.addConsumo(consumo);
+			reserva.addConsumo(consumo);
+			LoaderSaver.salvarReservas(reservas);
 		}
 	}
 
@@ -285,15 +288,7 @@ public class Hotel
 		return false;
 	}
 
-	private void removerServs() {
-		String nombreServicio;
-		do {
-		    nombreServicio = input("Ingrese el nombre del servicio a remover");
-		    if (!servicios.containsKey(nombreServicio)) {
-		        System.out.println("El servicio no existe");
-		    }
-		} while (!servicios.containsKey(nombreServicio));
-		
+	public void removerServs(String nombreServicio) {
 		servicios.remove(nombreServicio);
 		LoaderSaver.removeServicio(nombreServicio);
 		LoaderSaver.salvarServiciosDoc(servicios);
@@ -320,21 +315,25 @@ public class Hotel
 		//Para agregar opcion al servicio
 		if (opcion_seleccionada3 == 1)
 		{
-			agregarOpcionServicio(nombreServicio);
-			LoaderSaver.salvarServicio(servicios.get(nombreServicio).getMap(), nombreServicio);
+			//agregarOpcionServicio(nombreServicio);
+			
 		//Para remover opcion del servicio
 		}else if (opcion_seleccionada3 == 2)
 		{
-			removerOpcionServicio(nombreServicio);
-			LoaderSaver.salvarServicio(servicios.get(nombreServicio).getMap(), nombreServicio);
+			//removerOpcionServicio(nombreServicio);
+			
 		//Para remplazar opciones desde un documento txt
 		}else if (opcion_seleccionada3 == 3)
 		{
 			File f = new File(input("Por favor ingrese el path al nuevo archivo"));
-			servicios.get(nombreServicio).setMap(LoaderSaver.updateServicio(f));
-			LoaderSaver.salvarServicio(servicios.get(nombreServicio).getMap(), nombreServicio);
+			cargarServicioDesdeDocumento(nombreServicio, f);
 		}
 		}
+	}
+
+	public void cargarServicioDesdeDocumento(String nombreServicio, File f) {
+		servicios.get(nombreServicio).setMap(LoaderSaver.updateServicio(f));
+		LoaderSaver.salvarServicio(servicios.get(nombreServicio).getMap(), nombreServicio);
 	}
 
 	private void anadirServs() {
@@ -342,9 +341,11 @@ public class Hotel
 		//Para añadir desde un documento txt.
 		if (opcion_seleccionada3 == 1){cargarNuevoServicio();}
 		//Para añadir desde 0.
-		else if (opcion_seleccionada3 == 2){servicioDesde0();}
+		else if (opcion_seleccionada3 == 2){}//{servicioDesde0();}
 	}
 
+
+	/*
 	private void servicioDesde0() {
 		String nombreServicio = addEmptyServicio();
 		int opcion_seleccionada4 = 0;
@@ -367,6 +368,7 @@ public class Hotel
 		}
 		}
 	}
+	*/
 
 	private int opcionesAnadirServ() {
 		System.out.println("1. Añadir servicio con opciones de un documento .txt"); 
@@ -399,8 +401,7 @@ public class Hotel
 		System.out.println("La habitacion se eliminó correctamente.");
 	}
 
-	private void actualizarHabs() {
-		File file = new File(input("Ingrese el path del nuevo archivo de habitaciones."));
+	public void actualizarHabs(File file) {
 		try {
 	        if (file.exists()) {
 	            habitaciones = LoaderSaver.updateHabitaciones(file);
@@ -451,22 +452,21 @@ public class Hotel
 	}
 
 
-	private void removerOpcionServicio(String nombreServicio) {
+	public void removerOpcionServicio(String nombreServicio, String opcion) {
 	    Servicio servicio = servicios.get(nombreServicio);
-	    String opcion = input("Ingrese el nombre de la opcion que quiere remover");
 	    if (!servicio.removeOpcion(opcion)) {
 	        System.out.println("La opcion " + opcion + " no existe en el servicio " + nombreServicio);
 	    }
+		LoaderSaver.salvarServicio(servicios.get(nombreServicio).getMap(), nombreServicio);
 	}
 
-	private void agregarOpcionServicio(String nombreServicio) {
+	public void agregarOpcionServicio(String nombreServicio, String nombreOpcion, int precio) {
 	    Servicio servicio = servicios.get(nombreServicio);
-	    String nombreOpcion = input("Ingrese el nombre de la opcion que quiere añadir");
-	    Integer precio = Integer.parseInt(input("Ingrese el precio de la opcion"));
 	    Integer previousPrecio = servicio.addOpcion(nombreOpcion, precio);
 	    if (previousPrecio != null) {
 	        System.out.println("La opcion " + nombreOpcion + " ya existe en el servicio " + nombreServicio + " y su precio ha sido actualizado de "+ previousPrecio + " a " + precio);
 	    }
+		LoaderSaver.salvarServicio(servicios.get(nombreServicio).getMap(), nombreServicio);
 	}
 
 	private void cargarNuevoServicio() {
@@ -474,7 +474,7 @@ public class Hotel
 		File f = new File(input("Por favor ingrese el path al archivo con las informaciones del nuevo servicio (con .txt):"));
 		try {
 	        if (f.exists()) {
-	            servicios.put(nombre, new Servicio(LoaderSaver.updateServicio(f)));
+	            servicios.put(nombre, new Servicio(LoaderSaver.updateServicio(f), nombre));
 	            salvarNuevoServicio(nombre);
 	            System.out.println("El nuevo servicio está activado.");
 	        } else {
@@ -486,9 +486,8 @@ public class Hotel
 	    }
 	}
 
-	private String addEmptyServicio() {
-		String nombre = input("Ingrese el nombre del nuevo servicio a agregar:");
-		Servicio servicio = new Servicio(new HashMap<String, Integer>());
+	public String addEmptyServicio(String nombre) {
+		Servicio servicio = new Servicio(new HashMap<String, Integer>(), nombre);
 		servicios.put(nombre, servicio);
 		salvarNuevoServicio(nombre);	
 		return nombre;
@@ -706,7 +705,10 @@ public class Hotel
 
 public int removerHabs1(int id) {
 	int a = removeHabitacion2(id);
-	LoaderSaver.salvarHabitaciones(habitaciones);
+	if (a == 1)
+	{
+		LoaderSaver.salvarHabitaciones(habitaciones);
+	}
 	return a;
 }
 
@@ -808,31 +810,31 @@ public 	Huesped crearHuesped1(String nombre, String documento, String email, Str
 private void crearConsumo1(String servicio, Boolean yaPagado, String doc, String docHuespedPrin, String tipoConsumo, String nombre, String email, String telefono) {
 
 
-Servicio servicioo = null;
-while (servicio == null)
-{
-	for (String serv : servicios.keySet())
+	Servicio servicioo = null;
+	while (servicio == null)
 	{
-		System.out.println(serv);
+		for (String serv : servicios.keySet())
+		{
+			System.out.println(serv);
+		}
+		servicioo = servicios.get(servicio);
+		if (servicio == null) {System.out.println("Invalid choice. Try again.");}
 	}
-	servicioo = servicios.get(servicio);
-	if (servicio == null) {System.out.println("Invalid choice. Try again.");}
-}
-Huesped huesped = crearHuesped1(nombre, doc, email, telefono);
+	Huesped huesped = crearHuesped1(nombre, doc, email, telefono);
 
-Consumo consumo = new Consumo(servicioo, yaPagado, huesped, docHuespedPrin, tipoConsumo);
+	Consumo consumo = new Consumo(servicioo, yaPagado, huesped, docHuespedPrin, tipoConsumo);
 
 
-consumo.addProductos();
+	consumo.addProductos();
 
-try {
-	facturarConsumo(consumo, docHuespedPrin);
-} catch (Exception e) {
-	System.out.println("An error occurred while facturing the consumption: " + e.getMessage());
-	System.out.println("Remember to check in before using hotel sevices.");
-}
+	try {
+		facturarConsumo(consumo, docHuespedPrin);
+	} catch (Exception e) {
+		System.out.println("An error occurred while facturing the consumption: " + e.getMessage());
+		System.out.println("Remember to check in before using hotel sevices.");
+	}
 
-LoaderSaver.salvarReservas(reservas);
+	LoaderSaver.salvarReservas(reservas);
 }
 
 public HashMap<String, Servicio> getServicios()

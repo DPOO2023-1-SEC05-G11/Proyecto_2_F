@@ -53,6 +53,7 @@ public class VentanaRemoveRoom extends JFrame implements ActionListener{
 		
 		btnAceptar = new JButton("Aceptar");
 		panelAceptar.add(btnAceptar);
+		getRootPane().setDefaultButton(btnAceptar);
 		btnAceptar.addActionListener(this);
 
 	}
@@ -60,13 +61,17 @@ public class VentanaRemoveRoom extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==btnAceptar) {
-			
-			int id = Integer.parseInt(textField.getText());
-			int done = Hotel.getInstance().removerHabs1(id);
-			if (done==1) {
-				JOptionPane.showMessageDialog(null, "Se ha eliminado correctamente!");
-			} else if (done==0) {
-				JOptionPane.showMessageDialog(null, "No existe esa habitacion");
+			try{
+				int id = Integer.parseInt(textField.getText());
+				int done = Hotel.getInstance().removerHabs1(id);
+				if (done==1) {
+					dispose();
+					JOptionPane.showMessageDialog(null, "Se ha eliminado correctamente!");
+				} else if (done==0) {
+					JOptionPane.showMessageDialog(null, "No existe esa habitacion");
+				}
+			}catch(NumberFormatException e1){
+				JOptionPane.showMessageDialog(null, "Por favor entre un numero!");
 			}
 		}
 		

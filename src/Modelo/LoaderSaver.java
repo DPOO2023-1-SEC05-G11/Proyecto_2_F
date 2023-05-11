@@ -113,6 +113,7 @@ public class LoaderSaver {
 	public static void salvarServicio(HashMap<String, Integer> map, String file) {
 		try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("data/"+file+".txt"));
+			
             for (Entry<String, Integer> entry : map.entrySet()) {
                 writer.write(entry.getKey() + ";"  + entry.getValue() + "\n");
             }
@@ -306,6 +307,28 @@ public class LoaderSaver {
 		
 		return facturas;
 	}
+
+	public static int getContadorFactura(ArrayList<String> facturas) {
+		if (facturas.isEmpty()) {
+			return 0; 
+		}
+		
+		String lastFactura = facturas.get(facturas.size() - 1);
+		int idStartIndex = lastFactura.indexOf("facturaID=") + "facturaID=".length();
+		int idEndIndex = lastFactura.indexOf(";", idStartIndex);
+		
+		if (idStartIndex >= 0 && idEndIndex >= 0) {
+			String idString = lastFactura.substring(idStartIndex, idEndIndex);
+			try {
+				return Integer.parseInt(idString);
+			} catch (NumberFormatException e) {
+				System.err.println("Invalid facturaID format: " + idString);
+			}
+		}
+		
+		return 0;
+	}
+	
 	
 	public static void salvarFacturas(ArrayList<String> facturas)
 	{

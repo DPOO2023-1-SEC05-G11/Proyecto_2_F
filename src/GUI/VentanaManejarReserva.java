@@ -182,6 +182,7 @@ public class VentanaManejarReserva extends JFrame {
                             textField4.setText("");
                         }
                     });
+                    frame.getRootPane().setDefaultButton(addButton);
             
                     JButton removeButton = new JButton("Remove");
                     removeButton.addActionListener(new ActionListener() {

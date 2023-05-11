@@ -9,9 +9,10 @@ public class Servicio {
 	private String nombreServicio = "";
 	
 	
-	public Servicio(HashMap<String, Integer> map)
+	public Servicio(HashMap<String, Integer> map, String nombreServicio)
 	{
 		this.map = map;
+		this.nombreServicio = nombreServicio;
 	}
 	
 	public void mostrarOpciones() {

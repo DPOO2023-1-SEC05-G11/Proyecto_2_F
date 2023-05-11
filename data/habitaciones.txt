@@ -43,7 +43,7 @@
 503;estandar;false;false;false;3;1;0;100.0;false
 504;suite;true;true;true;1;1;1;300.0;false
 505;estandar;false;false;false;4;3;0;100.0;false
-506;estandar;true;true;false;4;5;0;100.0;false
+506;estandar;true;true;false;4;0;0;100.0;false
 507;doble;true;true;true;5;2;0;200.0;false
 508;estandar;true;true;false;3;0;0;100.0;false
 509;doble;true;true;false;5;1;0;200.0;false
@@ -51,7 +51,7 @@
 601;estandar;false;false;false;3;1;0;100.0;false
 602;doble;true;false;true;5;2;0;200.0;false
 603;estandar;false;false;false;3;1;0;100.0;false
-604;suite;true;true;true;1;1;5;300.0;false
+604;suite;true;true;true;1;1;1;300.0;false
 605;estandar;false;false;false;4;3;0;100.0;false
 606;estandar;true;true;false;4;0;0;100.0;false
 607;doble;true;true;true;5;2;0;200.0;false
@@ -65,13 +65,13 @@
 705;estandar;false;false;false;4;3;0;100.0;false
 706;estandar;true;true;false;4;0;0;100.0;false
 707;doble;true;true;true;5;2;0;200.0;false
-708;estandar;true;true;false;3;5;0;100.0;false
+708;estandar;true;true;false;3;0;0;100.0;false
 709;doble;true;true;false;5;1;0;200.0;false
 710;doble;true;true;true;5;1;0;200.0;false
 801;estandar;false;false;false;3;1;0;100.0;false
 802;doble;true;false;true;5;2;0;200.0;false
 803;estandar;false;false;false;3;1;0;100.0;false
-804;suite;true;true;true;1;1;5;300.0;false
+804;suite;true;true;true;1;1;1;300.0;false
 805;estandar;false;false;false;4;3;0;100.0;false
 806;estandar;true;true;false;4;0;0;100.0;false
 807;doble;true;true;true;5;2;0;200.0;false
@@ -131,8 +131,8 @@
 1401;estandar;false;false;false;3;1;0;100.0;false
 1402;doble;true;false;true;5;2;0;200.0;false
 1403;estandar;false;false;false;3;1;0;100.0;false
-1404;suite;true;true;true;1;1;1;300.0;true
-1405;estandar;false;false;false;4;3;0;100.0;true
+1404;suite;true;true;true;1;1;1;300.0;false
+1405;estandar;false;false;false;4;3;0;100.0;false
 1406;estandar;true;true;false;4;0;0;100.0;false
 1407;doble;true;true;true;5;2;0;200.0;false
 1408;estandar;true;true;false;3;0;0;100.0;false
@@ -148,4 +148,3 @@
 1508;estandar;true;true;false;3;0;0;100.0;false
 1509;doble;true;true;false;5;1;0;200.0;false
 1510;doble;true;true;true;5;1;0;200.0;false
-1610;suite;true;true;true;1;1;1;200.0;true

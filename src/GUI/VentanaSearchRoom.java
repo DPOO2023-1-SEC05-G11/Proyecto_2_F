@@ -49,6 +49,7 @@ public class VentanaSearchRoom extends JFrame implements ActionListener{
 		
 		btnAceptar = new JButton("Aceptar");
 		panelAceptar.add(btnAceptar);
+		getRootPane().setDefaultButton(btnAceptar);
 		btnAceptar.addActionListener(this);
 		
 		
@@ -56,18 +57,21 @@ public class VentanaSearchRoom extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource()==btnAceptar) {
-			int id = Integer.parseInt(textFieldId.getText());
-			Habitacion hab = Hotel.getInstance().buscarHabs1(id);
-			if (hab==null) {
-				JOptionPane.showMessageDialog(null, "La habitacion no existe");
-			} else {
-				VentanaShowRoom ventana = new VentanaShowRoom(hab);
-				ventana.setVisible(true);
-			}
+		try{
+			if (e.getSource()==btnAceptar) {
+				int id = Integer.parseInt(textFieldId.getText());
+				Habitacion hab = Hotel.getInstance().buscarHabs1(id);
+				if (hab==null) {
+					JOptionPane.showMessageDialog(null, "La habitacion no existe");
+				} else {
+					VentanaShowRoom ventana = new VentanaShowRoom(hab);
+					ventana.setVisible(true);
+					dispose();
+				}
 			
+			}
+		}catch(NumberFormatException e1){
+			JOptionPane.showMessageDialog(null, "Por favor entre un numero!");
 		}
-		
 	}
-
 }

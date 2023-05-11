@@ -31,7 +31,7 @@ public class VentanaLogin extends JFrame implements ActionListener {
 	String tipo;
 
 	public VentanaLogin() {
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 459, 302);
 		setLocationRelativeTo(null);
 		panelPrincipal = new JPanel();
