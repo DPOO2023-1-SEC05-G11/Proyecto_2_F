@@ -221,8 +221,12 @@ public class VentanaCrearReserva extends JFrame {
                 }
                 
                 
-                    Hotel.getInstance().ejecutarCrearReserva(huesped, fechaInicio, numNoches, selectedItems);
-                    dispose();
+                    if(Hotel.getInstance().ejecutarCrearReserva(huesped, fechaInicio, numNoches, selectedItems)){
+                        dispose();
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Una de las habitaciones seleccionadas está ocupada en la fechas deseadas.", "Error!", JOptionPane.WARNING_MESSAGE);
+                    }
+                    
                 } catch (NullPointerException ex) {
                     System.out.println("An error occurred while executing crearReserva: " + ex.getMessage());
                     JOptionPane.showMessageDialog(null, "Ingrese todas las informaciones necesarias.", "Error!", JOptionPane.WARNING_MESSAGE);

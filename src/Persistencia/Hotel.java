@@ -608,7 +608,7 @@ public class Hotel
 		}
 	}
 	
-	public void ejecutarCrearReserva(Huesped huespedPrincipal, String fechaI, int duracion, int[] roomIDs) {
+	public Boolean ejecutarCrearReserva(Huesped huespedPrincipal, String fechaI, int duracion, int[] roomIDs) {
 	    ArrayList<Habitacion> habitaciones = new ArrayList<Habitacion>();
 
 	    
@@ -624,6 +624,7 @@ public class Hotel
 	            		habitaciones.add(habitacion);
 	            	}else {
 	            		System.out.println("La habitacion seleccionada no esta libre en las fechas consultadas.");
+						return false;
 	            	}
 	            } else {
 	                System.out.println("La habitación seleccionada no existe. Por favor, intente nuevamente.");
@@ -631,13 +632,15 @@ public class Hotel
 	        } catch (Exception e) {
 	            System.out.println("Error al seleccionar la habitación: " + e.getMessage());
 	            e.printStackTrace();
+				return false;
 	        }
+			
 
 	    }
-	    
 	    ReservaEstadia res = new ReservaEstadia(fechaInicio, duracion, huespedPrincipal, habitaciones);
 	    reservas.add(res);
 	    LoaderSaver.salvarReservas(reservas);
+		return true;
 	}
 
 	
