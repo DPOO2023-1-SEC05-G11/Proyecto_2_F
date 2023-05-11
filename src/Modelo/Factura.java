@@ -32,8 +32,8 @@ public class Factura {
 		this.documentoHuesped = reserva.getHuespedPrincipal().getDocumento();
 		for (Habitacion hab : reserva.getHabitaciones())
 		{
-			preciosHabs.put(hab.getId(), hab.getTarifa());
-			precioTotal += hab.getTarifa();
+			preciosHabs.put(hab.getId(), hab.getTarifa()*reserva.getDuracion());
+			precioTotal += hab.getTarifa()*reserva.getDuracion();
 		}
 		for (Consumo consumo : reserva.getConsumos())
 		{

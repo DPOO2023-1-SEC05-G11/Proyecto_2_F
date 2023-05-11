@@ -1,2 +1,3 @@
 2023-05-11;7;j-9-j-9;105;true;j-9-j-9;restaurante|true|j-9-j-9|9|individual|0
 2024-01-01;2;k-1-k-1;709;true;k-1-k-1,Johannes-17-on-000;restaurante|false|k-1-k-1|1|habitacion|40000
+2023-08-01;2;j-1-j-1;109;false;null;null

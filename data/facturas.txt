@@ -9,3 +9,5 @@ facturaID=8;facturaTipo=reserva;huespedPrincipalDocumento=000000;precioTotal=100
 facturaID=9;facturaTipo=consumo;documentoHuesped=987;precioTotal=30000.0;tipoServicio=spa
 facturaID=10;facturaTipo=consumo;documentoHuesped=9;precioTotal=5000.0;tipoServicio=restaurante
 facturaID=11;facturaTipo=reserva;huespedPrincipalDocumento=2;precioTotal=100.0;habitaciones(id:precio)=505:100.0;Consumos Individuales=null;Consumos por Habitacion=null;precioTotal Consumos Grupales=0.0
+facturaID=12;facturaTipo=consumo;documentoHuesped=890;precioTotal=10000.0;tipoServicio=guia
+facturaID=13;facturaTipo=reserva;huespedPrincipalDocumento=00;precioTotal=100.0;habitaciones(id:precio)=603:100.0;Consumos Individuales=null;Consumos por Habitacion=null;precioTotal Consumos Grupales=0.0
