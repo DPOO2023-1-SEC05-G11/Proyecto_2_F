@@ -1,0 +1,5 @@
+torta de fresa;3000
+torta de chocolate;5000
+pastel de canela;2500
+pan;1000
+torta de manzana;4000

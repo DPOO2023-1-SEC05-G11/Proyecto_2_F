@@ -109,6 +109,10 @@ public class Habitacion {
 	{
 		return this.espacioNinos;
 	}
+
+	public ArrayList<LocalDate> getFechasOcupadas(){
+		return this.fechasOcupadas;
+	}
 	
 	public Boolean libreEntre(LocalDate fechaInicial, int duracion) {
 		LocalDate fechaFinal = fechaInicial.plusDays(duracion-1);

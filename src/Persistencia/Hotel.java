@@ -5,13 +5,17 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
+import java.util.List;
 
 import GUI.VentanaLogin;
 import Modelo.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class Hotel
@@ -844,6 +848,30 @@ public HashMap<String, Servicio> getServicios()
 {
 	return this.servicios;
 }
+
+public Integer[] ocupacionHabs() {
+    Integer[] ocupacionHabs = new Integer[7 * 52];
+    Arrays.fill(ocupacionHabs, 0); 
+
+    LocalDate currentDate = LocalDate.now();
+    LocalDate mondayOfCurrentWeek = currentDate.with(DayOfWeek.MONDAY);
+    LocalDate startDate = mondayOfCurrentWeek.minusWeeks(8);
+    LocalDate endDate = mondayOfCurrentWeek.plusWeeks(44).minusDays(1);
+
+    for (Habitacion hab : habitaciones) {
+        List<LocalDate> fechasOcupadas = hab.getFechasOcupadas();
+
+        for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+            if (fechasOcupadas.contains(date)) {
+                int index = (int) ChronoUnit.WEEKS.between(startDate, date) * 7 + date.getDayOfWeek().getValue() - 1;
+                ocupacionHabs[index]++;
+            }
+        }
+    }
+
+    return ocupacionHabs;
+}
+
 
 
 

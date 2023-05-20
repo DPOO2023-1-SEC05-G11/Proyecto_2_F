@@ -3,15 +3,13 @@ package GUI;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.border.EmptyBorder;
 
 public class VentanaEmpleado extends JFrame {
 
-	private JPanel panelPrincipal;
 	private panelReservas panel1;
 	private panelConsumo panel2;
+	private panelOcupacion panel3;
 	private JTabbedPane pestañas;
 	
 	public static void main(String[] args) {
@@ -36,9 +34,10 @@ public class VentanaEmpleado extends JFrame {
 		
 		panel2 = new panelConsumo();
 		panel1 = new panelReservas();
+		panel3 = new panelOcupacion();
 		pestañas.add("Reservas", panel1);
 		pestañas.add("Nuevo Consumo",panel2);
-		
+		pestañas.add("Ocupacion", panel3);
 		
 		getContentPane().add(pestañas);
 		
